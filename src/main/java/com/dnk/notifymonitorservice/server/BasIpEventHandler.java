@@ -1,7 +1,6 @@
 package com.dnk.notifymonitorservice.server;
 
 import com.dnk.notifymonitorservice.domain.LoginResponse;
-import com.dnk.notifymonitorservice.domain.Rfc5424SyslogEvent;
 import com.dnk.notifymonitorservice.utils.AppProperties;
 import com.dnk.notifymonitorservice.utils.HttpClient;
 import com.dnk.notifymonitorservice.utils.IniProps;
