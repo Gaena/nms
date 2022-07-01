@@ -42,7 +42,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.dnk.com.dnk.notifymonitorservice.Server</mainClass>
+                            <mainClass>com.dnk.notifymonitorservice.Server</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -1,7 +1,10 @@
 package com.dnk.notifymonitorservice.server;
 
+import com.dnk.notifymonitorservice.utils.AppProperties;
+
 import java.io.*;
 import java.net.Socket;
+import java.time.LocalDateTime;
 
 public class TcpServerSocketHandler implements Runnable {
 
@@ -16,24 +19,28 @@ public class TcpServerSocketHandler implements Runnable {
         try {
             InputStream input = socket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            String message = reader.readLine();
 
-            this.handle(message);
+            StringBuilder message = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                message.append(line);
+            }
+            input.close();
+            reader.close();
 
-            OutputStream output = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
-
-            writer.println(1);
+            this.handle(message.toString());
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ":" + e.getMessage());
         }
     }
 
     public void handle(String event) {
-        event = event.split(" ")[4];
-        if (event.contains("EVENT:106")) {
+//        AppProperties appProperties = AppProperties.getInstance();
+        System.out.println(LocalDateTime.now() + ":" + event.substring(event.lastIndexOf("EVENT")));
+        if (event.contains("Door opened")) {
             BasIpEventHandler basIpEventHandler = new BasIpEventHandler();
             basIpEventHandler.handle(event);
         }
+
     }
 }

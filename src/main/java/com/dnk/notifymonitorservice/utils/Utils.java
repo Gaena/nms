@@ -7,6 +7,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Arrays;
 
 public final class Utils {
 
@@ -26,5 +27,11 @@ public final class Utils {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    public static String getEventIp(String wholeEvent) {
+        String event = wholeEvent.substring(wholeEvent.lastIndexOf(">") + 1).trim();
+        return event.split(" ")[1];
     }
 }

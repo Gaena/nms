@@ -4,8 +4,11 @@ import com.dnk.notifymonitorservice.domain.LoginResponse;
 import com.dnk.notifymonitorservice.utils.AppProperties;
 import com.dnk.notifymonitorservice.utils.HttpClient;
 import com.dnk.notifymonitorservice.utils.IniProps;
+import com.dnk.notifymonitorservice.utils.Utils;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +27,9 @@ public class BasIpEventHandler {
     }
 
     public void handle(String event) {
-        System.out.println("Handled event : " + event);
+        System.out.println(LocalDateTime.now() + " " +"Handled event : " + event);
 
-        String ip = event.split(":")[4].split("@")[1];
+        String ip = Utils.getEventIp(event);
 
         if (ipConfigMap.containsKey(ip)) {
             List<String> ipList = ipConfigMap.get(ip);
@@ -45,7 +48,9 @@ public class BasIpEventHandler {
                             loginResponse.getToken()
                     );
 
-                } catch (IOException e) {
+                    System.gc();
+
+                } catch (IOException | NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
             }

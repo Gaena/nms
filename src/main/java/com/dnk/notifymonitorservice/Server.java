@@ -3,11 +3,7 @@ package com.dnk.notifymonitorservice;
 import com.dnk.notifymonitorservice.server.TcpServer;
 import com.dnk.notifymonitorservice.utils.AppProperties;
 
-/**
- * Syslog server.
- *
- * @author Josef Cacek
- */
+
 public class Server {
 
 

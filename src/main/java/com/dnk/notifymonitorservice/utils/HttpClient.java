@@ -2,12 +2,16 @@ package com.dnk.notifymonitorservice.utils;
 
 import com.dnk.notifymonitorservice.domain.LoginResponse;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class HttpClient {
@@ -28,22 +32,28 @@ public class HttpClient {
         return httpClient;
     }
 
-    public LoginResponse sendAuthRequest(String ip, String port, String username, String password) throws IOException {
-        String urlStr = String.format("http://%s:%s/login?username=%s&password=%s", ip, port, username, password);
+    public LoginResponse sendAuthRequest(String ip, String port, String username, String password) throws IOException, NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        String hashPass = DatatypeConverter.printHexBinary(digest).toUpperCase();
 
-        System.out.println("Requested url : " + urlStr);
+
+        String urlStr = String.format("http://%s:%s/api/v1/login?username=%s&password=%s", ip, port, username, hashPass);
+
+        System.out.println(LocalDateTime.now() + " " + "Requested url : " + urlStr);
 
         String response = this.sendRequest(urlStr, null);
 
-        System.out.println("Incoming response : " + response);
+        System.out.println(LocalDateTime.now() + " " + "Incoming response : " + response);
 
         return (LoginResponse) Utils.getObjectFromJson(response, LoginResponse.class);
     }
 
     public void sendOpenLock(String ip, String port, String token) throws IOException {
-        String urlStr = String.format("http://%s:%s/access/general/lock/open/remote/accepted/0", ip, port);
+        String urlStr = String.format("http://%s:%s/api/v1/access/general/lock/open/remote/accepted/0", ip, port);
 
-        System.out.println("Requested url : " + urlStr);
+        System.out.println(LocalDateTime.now() + " " + "Requested url : " + urlStr);
         this.sendRequest(urlStr, token);
     }
 
@@ -60,7 +70,7 @@ public class HttpClient {
         con.connect();
         int responseCode = con.getResponseCode();
         if (responseCode == 200) {
-            System.out.println("Response successful");
+            System.out.println(LocalDateTime.now() + " " + "Response successful");
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
             StringBuilder content = new StringBuilder();
