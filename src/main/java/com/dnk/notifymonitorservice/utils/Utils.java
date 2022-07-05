@@ -30,8 +30,15 @@ public final class Utils {
     }
 
 
-    public static String getEventIp(String wholeEvent) {
+    public static String getStandardEventIp(String wholeEvent) {
         String event = wholeEvent.substring(wholeEvent.lastIndexOf(">") + 1).trim();
+        return event.split(" ")[1];
+    }
+
+
+    public static String getHostEventIp(String wholeEvent) {
+        String event = wholeEvent.substring(wholeEvent.lastIndexOf(">") + 1).trim();
+        System.out.println(Arrays.toString(event.split(" ")));
         return event.split(" ")[1];
     }
 }

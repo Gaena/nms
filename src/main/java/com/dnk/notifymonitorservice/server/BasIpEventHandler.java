@@ -28,8 +28,7 @@ public class BasIpEventHandler {
 
     public void handle(String event) {
         System.out.println(LocalDateTime.now() + " " +"Handled event : " + event);
-
-        String ip = Utils.getEventIp(event);
+        String ip = Utils.getHostEventIp(event);
 
         if (ipConfigMap.containsKey(ip)) {
             List<String> ipList = ipConfigMap.get(ip);
