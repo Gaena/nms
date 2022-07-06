@@ -49,9 +49,20 @@ nms.pid - server process ID
 
 PI credentials :
 
+```
 username : pi
-
 password : raspberry
+```
+
+PI configuration :
+```
+Java version 8+
+
+CRONTAB :
+@reboot cd /app && ./restart.sh
+0 0 */3 * * cd /app && ./restart.sh
+```
+
 
 
 Git repository :
