@@ -37,7 +37,9 @@ public class TcpServerSocketHandler implements Runnable {
     public void handle(String event) {
 //        AppProperties appProperties = AppProperties.getInstance();
         System.out.println(LocalDateTime.now() + ":" + event.substring(event.lastIndexOf("EVENT")));
-        if (event.contains("Door") && event.contains("opened")) {
+        if (event.contains("Door")
+                && event.contains("opened")
+                && (!event.contains("EVENT:105:Door opened by exit button"))) {
             BasIpEventHandler basIpEventHandler = new BasIpEventHandler();
             basIpEventHandler.handle(event);
         }
